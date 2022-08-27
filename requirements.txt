@@ -2,3 +2,5 @@ django
 django-adminlte3
 mysqlclient
 environs
+requests
+beautifulsoup4
