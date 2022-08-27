@@ -41,7 +41,7 @@ class Article(models.Model):
     )
 
     tags = models.ManyToManyField(Tag,
-                                  verbose_name='Статьи',
+                                  verbose_name='Тэги',
                                   related_name='articles',
                                   )
     class Meta:
