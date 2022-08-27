@@ -3,9 +3,12 @@ from bs4 import BeautifulSoup
 import os
 import json
 import datetime
+import os
+import django
 
-
-# from newsparser.models import Tag, Channel, Article
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Parser.settings")
+django.setup()
+from newsparser.models import Tag, Channel, Article
 
 def get_articles_links(url):
     page_content = requests.get(url)
