@@ -15,6 +15,7 @@ class Channel(models.Model):
     def __str__(self):
         return self.title
 
+
 class Tag(models.Model):
     title = models.CharField('Название тэга', max_length=100, unique=True)
 
@@ -24,6 +25,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Article(models.Model):
     title = models.CharField('Заголовок статьи', max_length=200, unique=True)
