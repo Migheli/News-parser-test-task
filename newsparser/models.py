@@ -15,13 +15,13 @@ class Tag(models.Model):
 
 class Article(models.Model):
     title = models.CharField('Заголовок статьи', max_length=200, unique=True)
-    created_at = models.DateField(
-        'Когда создана статья',
+    published_at = models.DateField(
+        'Дата публикации',
         blank=True,
         db_index=True)
 
     text = models.TextField('Текст статьи', blank=True)
-    channel_tag = models.ForeignKey(
+    channel = models.ForeignKey(
         Channel,
         on_delete=models.CASCADE,
         db_index=True,
@@ -29,15 +29,12 @@ class Article(models.Model):
     )
 
     tags = models.ManyToManyField(Tag,
-                                  verbose_name='Квартиры в собственности',
-                                  related_name='owned_by',
-                                  db_index=True,
-                                  blank=True
+                                  verbose_name='Статьи',
+                                  related_name='articles',
                                   )
     class Meta:
-        verbose_name = 'Новость'
-        verbose_name_plural = 'Новости'
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
 
     def __str__(self):
         return self.title
-
