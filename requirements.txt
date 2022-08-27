@@ -1,2 +1,4 @@
 django
 django-adminlte3
+mysqlclient
+environs
