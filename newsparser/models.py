@@ -8,10 +8,22 @@ from django.utils import timezone
 class Channel(models.Model):
     title = models.CharField('Новостной канал', max_length=100, unique=True)
 
+    class Meta:
+        verbose_name = 'Канал'
+        verbose_name_plural = 'Каналы'
+
+    def __str__(self):
+        return self.title
 
 class Tag(models.Model):
-    title = models.CharField('Название тега', max_length=100, unique=True)
+    title = models.CharField('Название тэга', max_length=100, unique=True)
 
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
+
+    def __str__(self):
+        return self.title
 
 class Article(models.Model):
     title = models.CharField('Заголовок статьи', max_length=200, unique=True)
