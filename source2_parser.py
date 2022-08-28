@@ -121,7 +121,7 @@ def main():
     url = env.str('CHANNEL_TWO_NEWS_LINK')
     article_links= get_articles_links(url, next_button_xpath, driver)
 
-    for article_link in article_links:
+    for article_link in article_links[:PARSE_TASK_NUMBER]:
         link, date = article_link
         article_dataset = get_article_dataset(link, date, driver)
         update_or_create_article(article_dataset)
