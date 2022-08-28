@@ -20,5 +20,5 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     model = Tag
-    list_display = ['title', 'articles', 'get_articles']
+    list_display = ['title', 'get_articles']
     inlines = [ArticleInline]
