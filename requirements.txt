@@ -4,3 +4,4 @@ mysqlclient
 environs
 requests
 beautifulsoup4
+selenium

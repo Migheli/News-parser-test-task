@@ -42,15 +42,17 @@ def get_article_dataset(article_url):
 
 
 def update_or_create_article(article_dataset):
-    tags = []
-    print(article_dataset['tags'])
-    for article_tag in article_dataset['tags']:
-        tag, created = Tag.objects.get_or_create(
-            title=article_tag
-        )
-        tags.append(tag)
-
-    print(tags)
+    if article_dataset['tags']:
+        tags = []
+        print(article_dataset['tags'])
+        for article_tag in article_dataset['tags']:
+            tag, created = Tag.objects.get_or_create(
+                title=article_tag
+            )
+            tags.append(tag)
+        print(tags)
+    else:
+       tags = None
     channel, created = Channel.objects.get_or_create(
             title=article_dataset['channel']
         )
@@ -65,7 +67,8 @@ def update_or_create_article(article_dataset):
         }
 
     )
-    article.tags.set(tags)
+    if tags:
+        article.tags.set(tags)
 
 
 

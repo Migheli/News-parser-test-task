@@ -26,8 +26,11 @@ class Tag(models.Model):
     def __str__(self):
         return self.title
 
+    def get_self_title(self):
+        return self.title
+
     def get_articles(self):
-        return ",".join([str(p) for p in self.articles.all()])
+        return ", \n".join([str(p) for p in self.articles.all()])
 
 
 
