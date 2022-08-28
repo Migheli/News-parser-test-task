@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from newsparser import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/news_by_tag/<str:hashtag>', views.show_news_by_tagname),
+    path('api/all_news', views.show_all_news),
 ]
