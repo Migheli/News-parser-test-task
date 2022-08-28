@@ -43,21 +43,32 @@ def get_article_dataset(article_url):
 
 def update_or_create_article(article_dataset):
     tags = []
+    print(article_dataset['tags'])
     for article_tag in article_dataset['tags']:
         tag, created = Tag.objects.get_or_create(
             title=article_tag
         )
-    tags.append(tag)
+        tags.append(tag)
+
+    print(tags)
+    channel, created = Channel.objects.get_or_create(
+            title=article_dataset['channel']
+        )
 
     article, created = Article.objects.update_or_create(
         title=article_dataset['title'],
-        channel=Channel.objects.get_or_create(
-            title=article_dataset['channel']
-        ),
-        tags=tags,
-        published_at=article_dataset['published_at'],
-        text=article_dataset['text']
+
+        defaults={
+            'channel': channel,
+            'text': article_dataset.get('text', ''),
+            'published_at': article_dataset['published_at']
+        }
+
     )
+    article.tags.set(tags)
+
+
+
 
 
 def main():
@@ -65,13 +76,11 @@ def main():
     articles_links = get_articles_links(articles_url)
     articles_datasets = [get_article_dataset(article_link) for article_link in articles_links]
 
-    for article_dataset in articles_datasets[:1]:
+    for article_dataset in articles_datasets:
         update_or_create_article(article_dataset)
 
-
-
-
-
+    a = Article.objects.filter(tags__title__contains='#FBY')
+    print(a)
 # Запуск кода
 if __name__ == '__main__':
     main()

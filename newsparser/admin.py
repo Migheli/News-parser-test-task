@@ -14,7 +14,7 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     raw_id_fields = ['articles']
-    list_display = ['title', 'articles']
-
+    list_display = ['title', 'articles', 'get_articles']
+    inline = ['ArticleInline']
 
 # Register your models here.

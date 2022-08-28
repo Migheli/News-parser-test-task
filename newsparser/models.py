@@ -26,6 +26,10 @@ class Tag(models.Model):
     def __str__(self):
         return self.title
 
+    def get_articles(self):
+        return ",".join([str(p) for p in self.articles.all()])
+
+
 
 class Article(models.Model):
     title = models.CharField('Заголовок статьи', max_length=200, unique=True)
@@ -52,3 +56,4 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
