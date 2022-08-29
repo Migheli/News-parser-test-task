@@ -12,7 +12,6 @@ env = Env()
 env.read_env()
 
 
-
 def get_articles_links(url):
     page_content = requests.get(url)
     soup = BeautifulSoup(page_content.text, 'html.parser')

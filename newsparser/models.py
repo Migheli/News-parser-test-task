@@ -1,8 +1,4 @@
 from django.db import models
-#from tinymce.models import HTMLField
-from pathlib import Path
-from django.utils import timezone
-# Create your models here
 
 
 class Channel(models.Model):
@@ -24,9 +20,6 @@ class Tag(models.Model):
         verbose_name_plural = 'Тэги'
 
     def __str__(self):
-        return self.title
-
-    def get_self_title(self):
         return self.title
 
     def get_articles(self):
@@ -59,4 +52,3 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
-
