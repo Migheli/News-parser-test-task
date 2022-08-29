@@ -1,4 +1,4 @@
-# ВМЕСТО README.md
+## Instead of README.md
 
-### Видео работы в админке проекта:
+#### Scrypt working video:
 https://youtu.be/rs1yURt2ATw
