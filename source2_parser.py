@@ -18,7 +18,7 @@ from environs import Env
 env = Env()
 env.read_env()
 
-PARSE_TASK_NUMBER=10
+PARSE_TASK_NUMBER=2
 
 def get_articles_links(url, next_button_xpath, driver):
     driver.get(url)
@@ -32,10 +32,8 @@ def get_articles_links(url, next_button_xpath, driver):
         time.sleep(5)
         article_link_items += soup.find_all('a', class_=env.str('CHANNEL_TWO_LINK_CLASS'))
 
-    article_dates_serialized = []
     article_dates = soup.find_all('span', class_=env.str('CHANNEL_TWO_DATE_CLASS'))
-    for article_date in article_dates:
-        article_dates_serialized.append(article_date.text)
+    article_dates_serialized = [article_date.text for article_date in article_dates]
 
     news_source = env.str('CHANNEL_TWO_BASELINK')
     article_links = [news_source + article_link_item['href'] for article_link_item in article_link_items]
@@ -57,10 +55,7 @@ def get_article_dataset(article_url, article_date, driver):
 
     if tags:
         tags = tags.text
-        if ',' in tags:
-            tags = tags.split(',')
-        else:
-            tags = [tags]
+        tags = tags.split(',')  if ',' in tags else [tags]
         tags = [tag.replace(' ', '').replace('\n', '').replace('#', '') for tag in tags]
         article_dataset['tags'] = tags
 
@@ -85,6 +80,7 @@ def get_article_dataset(article_url, article_date, driver):
     article_dataset['published_at'] = published_at
     return article_dataset
 
+
 def update_or_create_article(article_dataset):
     if article_dataset['tags']:
         tags = []
@@ -107,7 +103,6 @@ def update_or_create_article(article_dataset):
             'text': article_dataset.get('text', ''),
             'published_at': article_dataset['published_at']
         }
-
     )
     if tags:
         article.tags.set(tags)
