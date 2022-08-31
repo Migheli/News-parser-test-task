@@ -20,7 +20,7 @@ env.read_env()
 
 PARSE_TASK_NUMBER=2
 
-def get_articles_links(url, next_button_xpath, driver):
+def get_articles_links_with_dates(url, next_button_xpath, driver):
     driver.get(url)
     next_page_button = driver.find_element(By.XPATH, next_button_xpath)
     time.sleep(5)
@@ -55,7 +55,7 @@ def get_article_dataset(article_url, article_date, driver):
 
     if tags:
         tags = tags.text
-        tags = tags.split(',')  if ',' in tags else [tags]
+        tags = tags.split(',') if ',' in tags else [tags]
         tags = [tag.replace(' ', '').replace('\n', '').replace('#', '') for tag in tags]
         article_dataset['tags'] = tags
 
@@ -82,22 +82,17 @@ def get_article_dataset(article_url, article_date, driver):
 
 
 def update_or_create_article(article_dataset):
+    tags = None
     if article_dataset['tags']:
-        tags = []
-        for article_tag in article_dataset['tags']:
-            tag, created = Tag.objects.get_or_create(
-                title=article_tag
-            )
-            tags.append(tag)
-    else:
-       tags = None
+        tags = [
+            Tag.objects.get_or_create(title=article_tag)[0]
+            for article_tag in article_dataset['tags']
+        ]
     channel, created = Channel.objects.get_or_create(
             title=article_dataset['channel']
         )
-
     article, created = Article.objects.update_or_create(
         title=article_dataset['title'],
-
         defaults={
             'channel': channel,
             'text': article_dataset.get('text', ''),
@@ -114,7 +109,7 @@ def main():
 
     next_button_xpath = env.str('CHANNEL_TWO_NEXT_PAGE_BTN_XPATH')
     url = env.str('CHANNEL_TWO_NEWS_LINK')
-    article_links= get_articles_links(url, next_button_xpath, driver)
+    article_links= get_articles_links_with_dates(url, next_button_xpath, driver)
 
     for article_link in article_links[:PARSE_TASK_NUMBER]:
         link, date = article_link
